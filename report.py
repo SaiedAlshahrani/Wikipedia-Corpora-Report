@@ -134,7 +134,7 @@ if display_data_table:
                     </thead>
                     <tbody style="margin: 0;padding: 0">
                         <tr>
-                            <td style="text-align:center"; rowspan=8>{selected_language}</td>
+                            <td style="text-align:center"; rowspan=8>English (en)</td>
                             <td style="text-align:center"; rowspan=4>Pages ({english__total_pages:,})</td>
                             <td style="text-align:center"; rowspan=2>Articles ({english__pages__content_pages:,})</td>
                             <td style="text-align:center">Human ({english__pages__content_pages__human:,})</td>
