@@ -185,7 +185,7 @@ hide_st_style = """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
 footer="""
-            <style>
+        <style>
             .footer {
                     position: fixed;
                     left: 0;
@@ -198,9 +198,9 @@ footer="""
             .p1 {
                     font-family: 'IBM Plex Sans', sans-serif;
                     font-size: 12px}
-            </style>
+        </style>
 
-            <div class="footer"> <p class="p1">© 2023 Saied Alshahrani</p>  </div>
+        <div class="footer"> <p class="p1">© 2023 Saied Alshahrani</p>  </div>
 """
 st.markdown(footer,unsafe_allow_html=True)  
 
