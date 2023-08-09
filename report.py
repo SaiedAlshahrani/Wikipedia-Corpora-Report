@@ -73,7 +73,7 @@ english__edits__non_content_pages = english__edits__non_content_pages__human + e
 data = {'Wiki' : ['English (en)', 'English (en)', 'English (en)','English (en)', 'English (en)', 'English (en)', 'English (en)','English (en)'],
         'Metric' : ['Pages', 'Pages', 'Pages', 'Pages', 'Edits', 'Edits', 'Edits', 'Edits'],
         'Sub-Metric' : ['Articles', 'Articles',  'Non-Articles', 'Non-Articles', 'Articles', 'Articles',  'Non-Articles', 'Non-Articles'],
-        'Editors' : ['Human', 'Bots', 'Human', 'Bots', 'Human', 'Bots', 'Human', 'Bots'],
+        'Editors' : ['Humans', 'Bots', 'Humans', 'Bots', 'Humans', 'Bots', 'Humans', 'Bots'],
         'Values' : [english__pages__content_pages__human, english__pages__content_pages__bots, 
                     english__pages__non_content_pages__human, english__pages__non_content_pages__bots,
                     english__edits__content_pages__human, english__edits__content_pages__bots, 
@@ -137,14 +137,14 @@ if display_data_table:
                             <td style="text-align:center"; rowspan=8>English (en)</td>
                             <td style="text-align:center"; rowspan=4>Pages ({english__total_pages:,})</td>
                             <td style="text-align:center"; rowspan=2>Articles ({english__pages__content_pages:,})</td>
-                            <td style="text-align:center">Human ({english__pages__content_pages__human:,})</td>
+                            <td style="text-align:center">Humans ({english__pages__content_pages__human:,})</td>
                         </tr>
                         <tr>
                             <td style="text-align:center">Bots ({english__pages__content_pages__bots:,})</td>
                         </tr>
                         <tr>
                             <td style="text-align:center"; rowspan=2>Non-Articles ({english__pages__non_content_pages:,})</td>
-                            <td style="text-align:center">Human ({english__pages__non_content_pages__human:,})</td>
+                            <td style="text-align:center">Humans ({english__pages__non_content_pages__human:,})</td>
                         </tr>
                         <tr>
                             <td style="text-align:center">Bots ({english__pages__non_content_pages__bots:,})</td>
@@ -152,14 +152,14 @@ if display_data_table:
                         <tr>
                             <td style="text-align:center"; rowspan=4>Edits ({english__total_edits:,})</td>
                             <td style="text-align:center"; rowspan=2>Articles ({english__edits__content_pages:,})</td>
-                            <td style="text-align:center">Human ({english__edits__content_pages__human:,})</td>
+                            <td style="text-align:center">Humans ({english__edits__content_pages__human:,})</td>
                         </tr>
                         <tr>
                             <td style="text-align:center"; >Bots ({english__edits__content_pages__bots:,})</td>
                         </tr>
                         <tr>
                             <td style="text-align:center"; rowspan=2>Non-Articles ({english__edits__non_content_pages:,})</td>
-                            <td style="text-align:center">Human ({english__edits__non_content_pages__human:,})</td>
+                            <td style="text-align:center">Humans ({english__edits__non_content_pages__human:,})</td>
                         </tr>
                         <tr>
                             <td style="text-align:center">Bots ({english__edits__non_content_pages__bots:,})</td>
