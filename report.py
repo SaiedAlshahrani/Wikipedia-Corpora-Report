@@ -90,10 +90,8 @@ wiki_codes = fetch_wikis_codes()
 for key, value in wiki_codes.items():
     labels.append(f"{value} ({key})")
 
-
 selected_language = st.selectbox("Select or Search for a Wikipedia language:", labels, placeholder="Select or Search for a Wikipedia language")
 display_data_table = st.checkbox(f'Display metadata in a table.', value=False)
-
 
 token = "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"
 dataset = datasets.load_dataset("SaiedAlshahrani/Wikipedia-Corpora-Report", split="train", use_auth_token=token)
@@ -131,6 +129,7 @@ fig = px.sunburst(data_frame=wiki_metadata,
 fig.update_traces(textinfo='label+percent parent')
 fig.update_traces(hovertemplate="Label=%{label}<br>Value=%{value}<br>Parent=%{parent}</br>")
 fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
+fig.update_layout(uniformtext=dict(minsize=12, mode='hide'))
 fig.add_layout_image(dict(x=.430, y=.615, sizex=0.23, sizey=0.23, opacity=0.22, layer="below",
                     source="https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png"))
 
