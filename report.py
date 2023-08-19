@@ -222,6 +222,7 @@ hide_st_style = """
                     MainMenu {visibility: hidden;}
                     header {visibility: hidden;}
                     footer {visibility: hidden;}
+                    button[title="View fullscreen"]{visibility: hidden;}
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
