@@ -129,7 +129,7 @@ fig = px.sunburst(data_frame=wiki_metadata,
 fig.update_traces(textinfo='label+percent parent')
 fig.update_traces(hovertemplate="Label=%{label}<br>Value=%{value}<br>Parent=%{parent}</br>")
 fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
-fig.update_layout(uniformtext=dict(minsize=12, mode='hide'))
+# fig.update_layout(uniformtext=dict(minsize=12, mode='hide'))
 fig.add_layout_image(dict(x=.430, y=.615, sizex=0.23, sizey=0.23, opacity=0.22, layer="below",
                     source="https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png"))
 
