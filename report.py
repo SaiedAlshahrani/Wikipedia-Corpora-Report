@@ -6,12 +6,10 @@ from time import sleep
 import streamlit as st
 import plotly.express as px
 
-
 warnings.simplefilter("ignore", UserWarning)
 warnings.simplefilter("ignore", FutureWarning)
 pd.options.display.float_format = '{:.2f}'.format
 ssl._create_default_https_context = ssl._create_unverified_context
-
 
 st.set_page_config(page_title="Wikipedia Corpora Report", page_icon="https://webspace.clarkson.edu/~alshahsf/images/wikipedia1.png")
 
