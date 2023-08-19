@@ -1,87 +1,129 @@
+import ssl
+import warnings
+import datasets
 import pandas as pd
-import ssl, warnings
+from time import sleep
 import streamlit as st
 import plotly.express as px
+
 
 warnings.simplefilter("ignore", UserWarning)
 warnings.simplefilter("ignore", FutureWarning)
 pd.options.display.float_format = '{:.2f}'.format
 ssl._create_default_https_context = ssl._create_unverified_context
 
+
 st.set_page_config(page_title="Wikipedia Corpora Report", page_icon="https://webspace.clarkson.edu/~alshahsf/images/wikipedia1.png")
 
-st.markdown("<h1 style='text-align: center';>Transparency in Wikipedia Corpora</h1>", unsafe_allow_html=True)
-st.markdown("<h5 style='text-align: center';>A Metadata Report of How Wikipedia Corpora Are Generated and Edited</h5>", unsafe_allow_html=True)
+st.markdown("""
+        <h1 style='text-align: center';>Transparency in Wikipedia Corpora</h1>
+        <h5 style='text-align: center';>A Metadata Report of How Wikipedia Corpora Are Generated and Edited</h5>
+        <br>  
+""", unsafe_allow_html=True)
 
-st.markdown("##")
 
-url = r'https://en.wikipedia.org/wiki/List_of_Wikipedias'
-tables = pd.read_html(url)
-dataframe = tables[4]
+def fetch_wikis_codes():
+    try:
+        url = r'https://en.wikipedia.org/wiki/List_of_Wikipedias'
+        tables = pd.read_html(url)
+        
+        for i in range(len(tables)):
+            dataframe = tables[i]
+            columns = list(dataframe.columns.values)
 
-dataframe = dataframe[['Language', 'Wiki']]
+            if(set(['Language', 'Wiki']).issubset(set(columns))):
+                wikis_codes = tables[i]
+                break
+
+        wikis_codes = wikis_codes[['Wiki', 'Language']]
+        wikis_codes = wikis_codes[wikis_codes["Language"].str.contains("(closed)") == False]
+        wikis_codes = wikis_codes.set_index('Wiki').to_dict()['Language']
+        return wikis_codes
+    
+    except KeyError:
+        wikis_codes = {'en': 'English', 'ceb': 'Cebuano', 'de': 'German', 'sv': 'Swedish', 'fr': 'French', 'nl': 'Dutch', 'ru': 'Russian',
+                       'es': 'Spanish', 'it': 'Italian', 'arz': 'Egyptian Arabic', 'pl': 'Polish', 'ja': 'Japanese', 'zh': 'Chinese', 'vi': 
+                       'Vietnamese', 'uk': 'Ukrainian', 'war': 'Waray', 'ar': 'Arabic', 'pt': 'Portuguese', 'fa': 'Persian', 'ca': 'Catalan', 
+                       'sr': 'Serbian', 'id': 'Indonesian', 'ko': 'Korean', 'no': 'Norwegian (Bokmål)', 'ce': 'Chechen', 'fi': 'Finnish', 'cs': 
+                       'Czech', 'tr': 'Turkish', 'hu': 'Hungarian', 'tt': 'Tatar', 'sh': 'Serbo-Croatian', 'ro': 'Romanian', 'zh-min-nan': 
+                       'Southern Min', 'eu': 'Basque', 'ms': 'Malay', 'eo': 'Esperanto', 'he': 'Hebrew', 'hy': 'Armenian', 'da': 'Danish', 'bg': 
+                       'Bulgarian', 'cy': 'Welsh', 'sk': 'Slovak', 'azb': 'South Azerbaijani', 'uz': 'Uzbek', 'et': 'Estonian', 'simple': 
+                       'Simple English', 'be': 'Belarusian', 'kk': 'Kazakh', 'min': 'Minangkabau', 'el': 'Greek', 'hr': 'Croatian', 'lt': 'Lithuanian', 
+                       'gl': 'Galician', 'az': 'Azerbaijani', 'ur': 'Urdu', 'sl': 'Slovene', 'lld': 'Ladin', 'ka': 'Georgian', 'nn': 'Norwegian (Nynorsk)', 
+                       'hi': 'Hindi', 'th': 'Thai', 'ta': 'Tamil', 'bn': 'Bengali', 'la': 'Latin', 'mk': 'Macedonian', 'zh-yue': 'Cantonese', 'ast': 
+                       'Asturian', 'lv': 'Latvian', 'af': 'Afrikaans', 'tg': 'Tajik', 'my': 'Burmese', 'mg': 'Malagasy', 'mr': 'Marathi', 'sq': 'Albanian', 
+                       'bs': 'Bosnian', 'oc': 'Occitan', 'te': 'Telugu', 'ml': 'Malayalam', 'nds': 'Low German', 'be-tarask': 'Belarusian (Taraškievica)', 
+                       'br': 'Breton', 'ky': 'Kyrgyz', 'sw': 'Swahili', 'jv': 'Javanese', 'lmo': 'Lombard', 'new': 'Newar', 'pnb': 'Western Punjabi', 'vec': 
+                       'Venetian', 'ht': 'Haitian Creole', 'pms': 'Piedmontese', 'ba': 'Bashkir', 'lb': 'Luxembourgish', 'su': 'Sundanese', 'ku': 'Kurdish (Kurmanji)', 
+                       'ga': 'Irish', 'szl': 'Silesian', 'is': 'Icelandic', 'fy': 'West Frisian', 'cv': 'Chuvash', 'ckb': 'Kurdish (Sorani)', 'pa': 'Punjabi', 'tl': 
+                       'Tagalog', 'an': 'Aragonese', 'wuu': 'Wu Chinese', 'diq': 'Zaza', 'io': 'Ido', 'sco': 'Scots', 'vo': 'Volapük', 'yo': 'Yoruba', 'ne': 'Nepali', 
+                       'ia': 'Interlingua', 'kn': 'Kannada', 'gu': 'Gujarati', 'als': 'Alemannic German', 'ha': 'Hausa', 'avk': 'Kotava', 'bar': 'Bavarian', 'crh': 
+                       'Crimean Tatar', 'scn': 'Sicilian', 'bpy': 'Bishnupriya Manipuri', 'qu': 'Quechua (Southern Quechua)', 'nv': 'Navajo', 'mn': 'Mongolian', 'xmf': 
+                       'Mingrelian', 'ban': 'Balinese', 'si': 'Sinhala', 'tum': 'Tumbuka', 'ps': 'Pashto', 'frr': 'North Frisian', 'os': 'Ossetian', 'mzn': 'Mazanderani', 
+                       'bat-smg': 'Samogitian', 'or': 'Odia', 'ig': 'Igbo', 'sah': 'Yakut', 'cdo': 'Eastern Min', 'gd': 'Scottish Gaelic', 'bug': 'Buginese', 'yi': 'Yiddish', 
+                       'sd': 'Sindhi', 'ilo': 'Ilocano', 'am': 'Amharic', 'nap': 'Neapolitan', 'li': 'Limburgish', 'bcl': 'Central Bikol', 'fo': 'Faroese', 'gor': 'Gorontalo', 
+                       'hsb': 'Upper Sorbian', 'map-bms': 'Banyumasan', 'mai': 'Maithili', 'shn': 'Shan', 'eml': 'Emilian-Romagnol', 'ace': 'Acehnese', 'zh-classical': 
+                       'Classical Chinese', 'sa': 'Sanskrit', 'as': 'Assamese', 'wa': 'Walloon', 'ie': 'Interlingue', 'hyw': 'Western Armenian', 'lij': 'Ligurian', 'mhr': 
+                       'Meadow Mari', 'zu': 'Zulu', 'sn': 'Shona', 'hif': 'Fiji Hindi', 'mrj': 'Hill Mari', 'bjn': 'Banjarese', 'mni': 'Meitei', 'km': 'Khmer', 'hak': 
+                       'Hakka Chinese', 'roa-tara': 'Tarantino', 'pam': 'Kapampangan', 'sat': 'Santali', 'rue': 'Rusyn', 'nso': 'Northern Sotho', 'bh': 'Bihari (Bhojpuri)', 
+                       'so': 'Somali', 'mi': 'Māori', 'se': 'Northern Sámi', 'myv': 'Erzya', 'vls': 'West Flemish', 'nds-nl': 'Dutch Low Saxon', 'dag': 'Dagbani', 'sc': 
+                       'Sardinian', 'ary': 'Moroccan Arabic', 'co': 'Corsican', 'kw': 'Cornish', 'bo': 'Lhasa Tibetan', 'vep': 'Veps', 'glk': 'Gilaki', 'tk': 'Turkmen', 'kab': 
+                       'Kabyle', 'gan': 'Gan Chinese', 'rw': 'Kinyarwanda', 'fiu-vro': 'Võro', 'ab': 'Abkhaz', 'gv': 'Manx', 'ug': 'Uyghur', 'nah': 'Nahuatl', 'zea': 'Zeelandic', 
+                       'skr': 'Saraiki', 'frp': 'Franco-Provençal', 'udm': 'Udmurt', 'pcd': 'Picard', 'mt': 'Maltese', 'kv': 'Komi', 'csb': 'Kashubian', 'gn': 'Guarani', 'smn': 
+                       'Inari Sámi', 'ay': 'Aymara', 'nrm': 'Norman', 'ks': 'Kashmiri', 'lez': 'Lezgian', 'lfn': 'Lingua Franca Nova', 'olo': 'Livvi-Karelian', 'mwl': 'Mirandese', 
+                       'stq': 'Saterland Frisian', 'lo': 'Lao', 'ang': 'Old English', 'mdf': 'Moksha', 'fur': 'Friulian', 'rm': 'Romansh', 'lad': 'Judaeo-Spanish', 'kaa': 'Karakalpak', 
+                       'gom': 'Konkani (Goan Konkani)', 'ext': 'Extremaduran', 'koi': 'Permyak', 'tyv': 'Tuvan', 'pap': 'Papiamento', 'av': 'Avar', 'dsb': 'Lower Sorbian', 'ln': 
+                       'Lingala', 'dty': 'Doteli', 'tw': 'Twi', 'cbk-zam': 'Chavacano (Zamboanga)', 'dv': 'Maldivian', 'ksh': 'Ripuarian', 'za': 'Zhuang (Standard Zhuang)', 'gag': 
+                       'Gagauz', 'bxr': 'Buryat (Russia Buriat)', 'pfl': 'Palatine German', 'lg': 'Luganda', 'szy': 'Sakizaya', 'pag': 'Pangasinan', 'blk': "Pa'O", 'pi': 'Pali', 
+                       'tay': 'Atayal', 'haw': 'Hawaiian', 'awa': 'Awadhi', 'inh': 'Ingush', 'krc': 'Karachay-Balkar', 'xal': 'Kalmyk Oirat', 'pdc': 'Pennsylvania Dutch', 'to': 
+                       'Tongan', 'atj': 'Atikamekw', 'tcy': 'Tulu', 'arc': 'Aramaic (Syriac)', 'mnw': 'Mon', 'jam': 'Jamaican Patois', 'shi': 'Shilha', 'kbp': 'Kabiye', 'wo': 
+                       'Wolof', 'anp': 'Angika', 'kbd': 'Kabardian', 'nia': 'Nias', 'nov': 'Novial', 'om': 'Oromo', 'ki': 'Kikuyu', 'nqo': "N'Ko", 'bi': 'Bislama', 'xh': 'Xhosa', 
+                       'tpi': 'Tok Pisin', 'tet': 'Tetum', 'ff': 'Fula', 'roa-rup': 'Aromanian', 'jbo': 'Lojban', 'fj': 'Fijian', 'kg': 'Kongo (Kituba)', 'lbe': 'Lak', 'ty': 'Tahitian', 
+                       'guw': 'Gun', 'cu': 'Old Church Slavonic', 'trv': 'Seediq', 'ami': 'Amis', 'srn': 'Sranan Tongo', 'sm': 'Samoan', 'mad': 'Madurese', 'alt': 'Southern Altai', 
+                       'ltg': 'Latgalian', 'gcr': 'French Guianese Creole', 'chr': 'Cherokee', 'tn': 'Tswana', 'ny': 'Chewa', 'st': 'Sotho', 'pih': 'Norfuk', 'rmy': 'Romani (Vlax Romani)', 
+                       'got': 'Gothic', 'ee': 'Ewe', 'pcm': 'Nigerian Pidgin', 'bm': 'Bambara', 'ss': 'Swazi', 'ts': 'Tsonga', 've': 'Venda', 'kcg': 'Tyap', 'chy': 'Cheyenne', 'rn': 
+                       'Kirundi', 'ch': 'Chamorro', 'gur': 'Frafra', 'ik': 'Iñupiaq', 'ady': 'Adyghe', 'pnt': 'Pontic Greek', 'guc': 'Wayuu', 'iu': 'Inuktitut', 'pwn': 'Paiwan', 'sg': 
+                       'Sango', 'din': 'Dinka', 'ti': 'Tigrinya', 'kl': 'Greenlandic', 'dz': 'Dzongkha', 'cr': 'Cree', 'ak': 'Akan'}
+        return wikis_codes
+
 
 labels = []
-for i in range(dataframe.shape[0]):
-    labels.append(f"{dataframe['Language'][i]} ({dataframe['Wiki'][i]})")
+wiki_codes = fetch_wikis_codes()
+for key, value in wiki_codes.items():
+    labels.append(f"{value} ({key})")
+
 
 selected_language = st.selectbox("Select or Search for a Wikipedia language:", labels, placeholder="Select or Search for a Wikipedia language")
-display_data_table = st.checkbox('Display data in a table.', value=False)
+display_data_table = st.checkbox(f'Display metadata in a table.', value=False)
 
-english__pages__content_pages__all_editors = pd.read_csv('en/en--pages--content-pages--all-editors--all.csv')
-english__pages__content_pages__all_editors = english__pages__content_pages__all_editors.iloc[-1]
-english__pages__content_pages__human = english__pages__content_pages__all_editors['total.user']+\
-                                       english__pages__content_pages__all_editors['total.anonymous']
-english__pages__content_pages__bots = english__pages__content_pages__all_editors['total.group-bot']+\
-                                      english__pages__content_pages__all_editors['total.name-bot']
 
-english__pages__non_content_pages__all_editors = pd.read_csv('en/en--pages--non-content-pages--all-editors--all.csv')
-english__pages__non_content_pages__all_editors = english__pages__non_content_pages__all_editors.iloc[-1]
-english__pages__non_content_pages__human = english__pages__non_content_pages__all_editors['total.user']+\
-                                           english__pages__non_content_pages__all_editors['total.anonymous']
-english__pages__non_content_pages__bots = english__pages__non_content_pages__all_editors['total.group-bot']+\
-                                      english__pages__non_content_pages__all_editors['total.name-bot']
+token = "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"
+dataset = datasets.load_dataset("SaiedAlshahrani/Wikipedia-Corpora-Report", split="train", use_auth_token=token)
+dataset = dataset.to_pandas()
 
-english__total_pages = english__pages__content_pages__human + english__pages__content_pages__bots +\
-                       english__pages__non_content_pages__human + english__pages__non_content_pages__bots
+metadata = dataset[dataset['Wiki'] == selected_language]
 
-english__pages__content_pages = english__pages__content_pages__human + english__pages__content_pages__bots 
+pages_content_bots = metadata['Values'].iloc[0]
+pages_content_humans = metadata['Values'].iloc[1]
+pages_non_content_bots = metadata['Values'].iloc[2]
+pages_non_content_humans = metadata['Values'].iloc[3]
 
-english__pages__non_content_pages = english__pages__non_content_pages__human + english__pages__non_content_pages__bots
+edits_content_bots = metadata['Values'].iloc[4]
+edits_content_humans = metadata['Values'].iloc[5]
+edits_non_content_bots = metadata['Values'].iloc[6]
+edits_non_content_humans = metadata['Values'].iloc[7]
 
-english__edits__content_pages__all_editors = pd.read_csv('en/en--edits--content-pages--all-editors--all.csv')
-english__edits__content_pages__all_editors = english__edits__content_pages__all_editors.iloc[-1]
-english__edits__content_pages__human = english__edits__content_pages__all_editors['total.user']+\
-                                       english__edits__content_pages__all_editors['total.anonymous']
-english__edits__content_pages__bots = english__edits__content_pages__all_editors['total.group-bot']+\
-                                      english__edits__content_pages__all_editors['total.name-bot']
+pages_content_pages = pages_content_bots+pages_content_humans
+pages_non_content_pages = pages_non_content_bots+pages_non_content_humans
+total_pages = pages_content_pages+pages_non_content_pages
 
-english__edits__non_content_pages__all_editors = pd.read_csv('en/en--edits--non-content-pages--all-editors--all.csv')
-english__edits__non_content_pages__all_editors = english__edits__non_content_pages__all_editors.iloc[-1]
-english__edits__non_content_pages__human = english__edits__non_content_pages__all_editors['total.user']+\
-                                           english__edits__non_content_pages__all_editors['total.anonymous']
-english__edits__non_content_pages__bots = english__edits__non_content_pages__all_editors['total.group-bot']+\
-                                          english__edits__non_content_pages__all_editors['total.name-bot']
+edits_content_pages = edits_content_bots+edits_content_humans
+edits_non_content_pages = edits_non_content_bots+edits_non_content_humans
+total_edits = edits_content_pages + edits_non_content_pages
 
-english__total_edits = english__edits__content_pages__human + english__edits__content_pages__bots +\
-                       english__edits__non_content_pages__human + english__edits__non_content_pages__bots
+wiki_metadata = pd.DataFrame(metadata)
 
-english__edits__content_pages = english__edits__content_pages__human + english__edits__content_pages__bots 
-
-english__edits__non_content_pages = english__edits__non_content_pages__human + english__edits__non_content_pages__bots
-
-data = {'Wiki' : ['English (en)', 'English (en)', 'English (en)','English (en)', 'English (en)', 'English (en)', 'English (en)','English (en)'],
-        'Metric' : ['Pages', 'Pages', 'Pages', 'Pages', 'Edits', 'Edits', 'Edits', 'Edits'],
-        'Sub-Metric' : ['Articles', 'Articles',  'Non-Articles', 'Non-Articles', 'Articles', 'Articles',  'Non-Articles', 'Non-Articles'],
-        'Editors' : ['Humans', 'Bots', 'Humans', 'Bots', 'Humans', 'Bots', 'Humans', 'Bots'],
-        'Values' : [english__pages__content_pages__human, english__pages__content_pages__bots, 
-                    english__pages__non_content_pages__human, english__pages__non_content_pages__bots,
-                    english__edits__content_pages__human, english__edits__content_pages__bots, 
-                    english__edits__non_content_pages__human, english__edits__non_content_pages__bots]}
-
-english_data = pd.DataFrame(data)
-
-fig = px.sunburst(data_frame=english_data, 
+fig = px.sunburst(data_frame=wiki_metadata, 
                   path=['Wiki','Metric', 'Sub-Metric', 'Editors'], 
                   values='Values', 
                   branchvalues="total",
@@ -91,8 +133,11 @@ fig = px.sunburst(data_frame=english_data,
 fig.update_traces(textinfo='label+percent parent')
 fig.update_traces(hovertemplate="Label=%{label}<br>Value=%{value}<br>Parent=%{parent}</br>")
 fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
-fig.update_layout(uniformtext = dict(minsize = 15))  
+fig.add_layout_image(dict(x=.430, y=.615, sizex=0.23, sizey=0.23, opacity=0.22, layer="below",
+                    source="https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png"))
+
 st.markdown("##") 
+
 st.plotly_chart(fig, theme=None, use_container_width=True, config={'displayModeBar': False})
 
 st.markdown("##")
@@ -134,35 +179,35 @@ if display_data_table:
                     </thead>
                     <tbody style="margin: 0;padding: 0">
                         <tr>
-                            <td style="text-align:center"; rowspan=8>English (en)</td>
-                            <td style="text-align:center"; rowspan=4>Pages ({english__total_pages:,})</td>
-                            <td style="text-align:center"; rowspan=2>Articles ({english__pages__content_pages:,})</td>
-                            <td style="text-align:center">Humans ({english__pages__content_pages__human:,})</td>
+                            <td style="text-align:center"; rowspan=8>{selected_language}</td>
+                            <td style="text-align:center"; rowspan=4>Pages ({total_pages:,})</td>
+                            <td style="text-align:center"; rowspan=2>Articles ({pages_content_pages:,})</td>
+                            <td style="text-align:center">Bots ({pages_content_bots:,})</td>
                         </tr>
                         <tr>
-                            <td style="text-align:center">Bots ({english__pages__content_pages__bots:,})</td>
+                            <td style="text-align:center">Humans ({pages_content_humans:,})</td>
                         </tr>
                         <tr>
-                            <td style="text-align:center"; rowspan=2>Non-Articles ({english__pages__non_content_pages:,})</td>
-                            <td style="text-align:center">Humans ({english__pages__non_content_pages__human:,})</td>
+                            <td style="text-align:center"; rowspan=2>Non-Articles ({pages_non_content_pages:,})</td>
+                            <td style="text-align:center">Bots ({pages_non_content_bots:,})</td>
                         </tr>
                         <tr>
-                            <td style="text-align:center">Bots ({english__pages__non_content_pages__bots:,})</td>
+                            <td style="text-align:center">Humans ({pages_non_content_humans:,})</td>
                         </tr>
                         <tr>
-                            <td style="text-align:center"; rowspan=4>Edits ({english__total_edits:,})</td>
-                            <td style="text-align:center"; rowspan=2>Articles ({english__edits__content_pages:,})</td>
-                            <td style="text-align:center">Humans ({english__edits__content_pages__human:,})</td>
+                            <td style="text-align:center"; rowspan=4>Edits ({total_edits:,})</td>
+                            <td style="text-align:center"; rowspan=2>Articles ({edits_content_pages:,})</td>
+                            <td style="text-align:center">Bots ({edits_content_bots:,})</td>
                         </tr>
                         <tr>
-                            <td style="text-align:center"; >Bots ({english__edits__content_pages__bots:,})</td>
+                            <td style="text-align:center"; >Humans ({edits_content_humans:,})</td>
                         </tr>
                         <tr>
-                            <td style="text-align:center"; rowspan=2>Non-Articles ({english__edits__non_content_pages:,})</td>
-                            <td style="text-align:center">Humans ({english__edits__non_content_pages__human:,})</td>
+                            <td style="text-align:center"; rowspan=2>Non-Articles ({edits_non_content_pages:,})</td>
+                            <td style="text-align:center">Bots ({edits_non_content_bots:,})</td>
                         </tr>
                         <tr>
-                            <td style="text-align:center">Bots ({english__edits__non_content_pages__bots:,})</td>
+                            <td style="text-align:center">Humans ({edits_non_content_humans:,})</td>
                         </tr>
                     </tbody>
                 </table>
@@ -198,19 +243,30 @@ footer="""
             .p1 {
                     font-family: 'IBM Plex Sans', sans-serif;
                     font-size: 12px}
+
         </style>
 
-        <div class="footer"> <p class="p1">© 2023 Saied Alshahrani</p>  </div>
+        <div class="footer"> <p class="p1">Copyright © 2023 by Saied Alshahrani <br> Latest Meta Update: 1st August, 2023</p> </div>
+        
 """
-st.markdown(footer,unsafe_allow_html=True)  
+st.markdown(footer, unsafe_allow_html=True)  
 
 st.markdown("""
         <style>
                .block-container {
-                    padding-top: 1.3rem;
+                    padding-top: 1.1rem;
                     padding-bottom: 0rem;
                     padding-left: 0rem;
                     padding-right: 0rem;
                 }
+        </style>
+        """, unsafe_allow_html=True)
+
+st.markdown("""
+        <style>
+        .br {
+            display: block;
+            margin: 0px 0;
+            }
         </style>
         """, unsafe_allow_html=True)
