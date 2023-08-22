@@ -17,8 +17,8 @@ ssl._create_default_https_context = ssl._create_unverified_context
 st.set_page_config(page_title="Wikipedia Corpora Report", page_icon="https://webspace.clarkson.edu/~alshahsf/images/wikipedia1.png")
 
 st.markdown("""
-        <h1 style='text-align: center';>Transparency in Wikipedia Corpora</h1>
-        <h5 style='text-align: center';>A Metadata Report Showing How Wikipedia Articles Are Generated and Edited</h5>
+        <h1 style='text-align: center';>WIKIPEDIA CORPORA META REPORT</h1>
+        <h5 style='text-align: center';>An Online Metadata Report of How Wikipedia Articles Are Generated and Edited</h5>
         <br>  
 """, unsafe_allow_html=True)
 
