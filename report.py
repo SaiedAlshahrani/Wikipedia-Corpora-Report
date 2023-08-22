@@ -18,7 +18,7 @@ st.set_page_config(page_title="Wikipedia Corpora Report", page_icon="https://web
 
 st.markdown("""
         <h1 style='text-align: center';>Transparency in Wikipedia Corpora</h1>
-        <h5 style='text-align: center';>A Metadata Report Showing How Wikipedia Corpora Are Generated and Edited</h5>
+        <h5 style='text-align: center';>A Metadata Report Showing How Wikipedia Articles Are Generated and Edited</h5>
         <br>  
 """, unsafe_allow_html=True)
 
