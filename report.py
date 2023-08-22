@@ -127,7 +127,7 @@ def run_command(args):
         st.error(result.stderr)
         raise e
 
-run_command(["echo","Hello"])
+run_command(["bash","test.sh"])
 
 
 
