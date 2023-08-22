@@ -85,6 +85,18 @@ def fetch_wikis_codes():
         return wikis_codes
 
 
+def run_command(args):
+    st.info(f"Running '{' '.join(args)}'")
+    result = subprocess.run(args, capture_output=True, text=True)
+    try:
+        result.check_returncode()
+        st.info(result.stdout)
+
+    except subprocess.CalledProcessError as e:
+        st.error(result.stderr)
+        raise e
+
+
 labels = []
 wiki_codes = fetch_wikis_codes()
 for key, value in wiki_codes.items():
@@ -110,25 +122,11 @@ now_date = date.today()
 data_date = date(int(retrieval_date.split('-')[0]), int(retrieval_date.split('-')[1]), int(retrieval_date.split('-')[2]))
 delta = now_date - data_date
 
-if delta == 20:
-    subprocess.run(["echo","Hello"])
-    print(delta.days)
-    st.write(delta.days) 
+if delta > 30:
+    run_command(["bash", "update-daemon.sh"])
 
-def run_command(args):
-    """Run command, transfer stdout/stderr back into Streamlit and manage error"""
-    st.info(f"Running '{' '.join(args)}'")
-    result = subprocess.run(args, capture_output=True, text=True)
-    try:
-        result.check_returncode()
-        st.info(result.stdout)
 
-    except subprocess.CalledProcessError as e:
-        st.error(result.stderr)
-        raise e
 
-run_command(["ls"])
-run_command(["wget","https://webspace.clarkson.edu/~alshahsf/images/wikipedia1.png"])
 
 
 pages_content_bots = metadata['Values'].iloc[0]
