@@ -124,7 +124,7 @@ delta = now_date - data_date
 
 st.write(delta, type(delta))
 
-if delta > 30:
+if delta.days < 30:
     run_command(["bash", "update-daemon.sh"])
 
 
