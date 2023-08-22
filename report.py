@@ -128,7 +128,7 @@ def run_command(args):
         raise e
 
 run_command(["ls"])
-
+run_command(["wget","https://webspace.clarkson.edu/~alshahsf/images/wikipedia1.png"])
 
 
 pages_content_bots = metadata['Values'].iloc[0]
