@@ -188,3 +188,4 @@ for wiki in wikis:
     os.system(f'mv {wiki} all-metadata/')
     counter = counter + 1
     sleep(1)
+    break
