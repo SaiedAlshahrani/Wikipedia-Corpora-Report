@@ -122,6 +122,8 @@ now_date = date.today()
 data_date = date(int(retrieval_date.split('-')[0]), int(retrieval_date.split('-')[1]), int(retrieval_date.split('-')[2]))
 delta = now_date - data_date
 
+st.write(delta, type(delta))
+
 if delta > 30:
     run_command(["bash", "update-daemon.sh"])
 
