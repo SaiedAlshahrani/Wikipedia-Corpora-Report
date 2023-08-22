@@ -1,10 +1,13 @@
 import ssl
 import warnings
 import datasets
+import subprocess
 import pandas as pd
 from time import sleep
 import streamlit as st
+from datetime import date
 import plotly.express as px
+
 
 warnings.simplefilter("ignore", UserWarning)
 warnings.simplefilter("ignore", FutureWarning)
@@ -85,16 +88,10 @@ def fetch_wikis_codes():
         return wikis_codes
 
 
-def run_command(args):
-    # st.info(f"Running '{' '.join(args)}'")
+def run_daemon(args):
     result = subprocess.run(args, capture_output=True, text=True)
-    try:
-        result.check_returncode()
-        # st.info(result.stdout)
-
-    except subprocess.CalledProcessError as exception:
-        # st.error(result.stderr)
-        raise exception
+    try: result.check_returncode()
+    except subprocess.CalledProcessError as exception: raise exception
 
 
 labels = []
@@ -111,25 +108,13 @@ dataset = dataset.to_pandas()
 
 metadata = dataset[dataset['Wiki'] == selected_language]
 
-
-
-from datetime import date
-import subprocess
-
 retrieval_date = metadata['Retrieval-Date'].iloc[0]
 
 now_date = date.today()
 data_date = date(int(retrieval_date.split('-')[0]), int(retrieval_date.split('-')[1]), int(retrieval_date.split('-')[2]))
 delta = now_date - data_date
 
-st.write(delta, type(delta))
-
-if delta.days < 30:
-    run_command(["bash", "update-daemon.sh"])
-
-
-
-
+if delta.days > 35: run_daemon(["bash", "update-daemon.sh"])
 
 pages_content_bots = metadata['Values'].iloc[0]
 pages_content_humans = metadata['Values'].iloc[1]
