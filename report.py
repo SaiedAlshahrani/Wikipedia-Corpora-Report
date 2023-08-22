@@ -99,8 +99,12 @@ dataset = dataset.to_pandas()
 
 metadata = dataset[dataset['Wiki'] == selected_language]
 
+
+
 from datetime import date
 import subprocess
+
+retrieval_date = metadata['Retrieval-Date'].iloc[0]
 
 now_date = date.today()
 data_date = date(int(retrieval_date.split('-')[0]), int(retrieval_date.split('-')[1]), int(retrieval_date.split('-')[2]))
@@ -110,6 +114,9 @@ if delta == 20:
     subprocess.Popen(["echo","Hello"])
     print(delta.days)
     st.write(delta.days) 
+
+
+
 
 pages_content_bots = metadata['Values'].iloc[0]
 pages_content_humans = metadata['Values'].iloc[1]
