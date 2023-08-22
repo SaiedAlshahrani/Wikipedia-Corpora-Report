@@ -111,7 +111,7 @@ data_date = date(int(retrieval_date.split('-')[0]), int(retrieval_date.split('-'
 delta = now_date - data_date
 
 if delta == 20:
-    subprocess.Popen(["echo","Hello"])
+    subprocess.run(["echo","Hello"])
     print(delta.days)
     st.write(delta.days) 
 
