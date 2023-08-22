@@ -114,7 +114,7 @@ now_date = date.today()
 data_date = date(int(retrieval_date.split('-')[0]), int(retrieval_date.split('-')[1]), int(retrieval_date.split('-')[2]))
 delta = now_date - data_date
 
-if delta.days < 35: run_daemon(["bash", "update-daemon.sh"])
+if delta.days > 35: run_daemon(["bash", "update-daemon.sh"])
 
 pages_content_bots = metadata['Values'].iloc[0]
 pages_content_humans = metadata['Values'].iloc[1]
