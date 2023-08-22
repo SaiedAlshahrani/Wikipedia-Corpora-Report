@@ -1,1 +1,3 @@
 wget
+firefox-esr
+firefox-geckodriver
