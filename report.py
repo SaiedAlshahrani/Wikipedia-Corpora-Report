@@ -86,15 +86,15 @@ def fetch_wikis_codes():
 
 
 def run_command(args):
-    st.info(f"Running '{' '.join(args)}'")
+    # st.info(f"Running '{' '.join(args)}'")
     result = subprocess.run(args, capture_output=True, text=True)
     try:
         result.check_returncode()
-        st.info(result.stdout)
+        # st.info(result.stdout)
 
-    except subprocess.CalledProcessError as e:
-        st.error(result.stderr)
-        raise e
+    except subprocess.CalledProcessError as exception:
+        # st.error(result.stderr)
+        raise exception
 
 
 labels = []
