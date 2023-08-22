@@ -115,6 +115,19 @@ if delta == 20:
     print(delta.days)
     st.write(delta.days) 
 
+def run_command(args):
+    """Run command, transfer stdout/stderr back into Streamlit and manage error"""
+    st.info(f"Running '{' '.join(args)}'")
+    result = subprocess.run(args, capture_output=True, text=True)
+    try:
+        result.check_returncode()
+        st.info(result.stdout)
+
+    except subprocess.CalledProcessError as e:
+        st.error(result.stderr)
+        raise e
+
+run_command(["echo","Hello"])
 
 
 
