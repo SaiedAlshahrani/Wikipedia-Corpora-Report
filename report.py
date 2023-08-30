@@ -271,7 +271,7 @@ st.markdown(footer, unsafe_allow_html=True)
 st.markdown("""
         <style>
                .block-container {
-                    padding-top: 0.50rem;
+                    padding-top: 0rem;
                     padding-bottom: 0rem;
                     padding-left: 0rem;
                     padding-right: 0rem;
