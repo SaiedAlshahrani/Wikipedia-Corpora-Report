@@ -103,7 +103,7 @@ selected_language = st.selectbox("Select or Search for a Wikipedia language:", l
 display_data_table = st.checkbox(f'Display metadata in a table.', value=False)
 
 
-@st.cache_data(show_spinner="Fetching data from API...")
+@st.cache_data
 def fetch_metadata_dataset():
         token = "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"
         dataset = datasets.load_dataset("SaiedAlshahrani/Wikipedia-Corpora-Report", split="train", use_auth_token=token)
