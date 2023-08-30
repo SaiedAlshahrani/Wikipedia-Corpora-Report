@@ -155,7 +155,7 @@ fig.add_layout_image(dict(x=.430, y=.615, sizex=0.23, sizey=0.23, opacity=0.22, 
 st.plotly_chart(fig, theme=None, use_container_width=True, config={'displayModeBar': False})
 
 # st.markdown("##")
-st.markdown("<br>",unsafe_allow_html=True)
+# st.markdown("<br>",unsafe_allow_html=True)
 
 
 if display_data_table:
