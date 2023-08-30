@@ -155,7 +155,7 @@ st.markdown("<br>",unsafe_allow_html=True)
 st.plotly_chart(fig, theme=None, use_container_width=True, config={'displayModeBar': False})
 
 # st.markdown("##")
-st.markdown("<br>",unsafe_allow_html=True)
+# st.markdown("<br>",unsafe_allow_html=True)
 
 
 if display_data_table:
