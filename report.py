@@ -102,9 +102,14 @@ for key, value in wiki_codes.items():
 selected_language = st.selectbox("Select or Search for a Wikipedia language:", labels, placeholder="Select or Search for a Wikipedia language")
 display_data_table = st.checkbox(f'Display metadata in a table.', value=False)
 
-token = "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"
-dataset = datasets.load_dataset("SaiedAlshahrani/Wikipedia-Corpora-Report", split="train", use_auth_token=token)
-dataset = dataset.to_pandas()
+@st.cache_data
+def fetch_metadata_dataset():
+        token = "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"
+        dataset = datasets.load_dataset("SaiedAlshahrani/Wikipedia-Corpora-Report", split="train", use_auth_token=token)
+        dataset = dataset.to_pandas()
+        return dataset
+
+dataset = fetch_metadata_dataset()
 
 metadata = dataset[dataset['Wiki'] == selected_language]
 
