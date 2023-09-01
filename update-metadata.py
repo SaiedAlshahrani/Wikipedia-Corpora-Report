@@ -1,8 +1,10 @@
 import selenium
 import os, warnings
+import urllib.request
 from time import sleep
 import pandas as pd, ssl
 from selenium import webdriver
+from urllib.error import HTTPError
 
 warnings.simplefilter("ignore", UserWarning)
 warnings.simplefilter("ignore", FutureWarning)
@@ -11,23 +13,27 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 def fetch_wikis_codes():
     try:
-        url = r'https://en.wikipedia.org/wiki/Statistics_of_Wikipedias'
-        tables = pd.read_html(url)
+        urls = [r'https://en.wikipedia.org/wiki/Statistics_of_Wikipedias', 
+                r'https://meta.wikimedia.org/wiki/List_of_Wikipedias']
         
-        for i in range(len(tables)):
-            dataframe = tables[i]
-            columns = list(dataframe.columns.values)
-
-            if(set(['Language', 'Wiki']).issubset(set(columns))):
-                wikis_codes = tables[i]
-                break
-
+        for url in urls:
+            try: tables = pd.read_html(url)
+            except urllib.error.HTTPError: continue
+                
+            for i in range(len(tables)):
+                dataframe = tables[i]
+                columns = list(dataframe.columns.values)
+        
+                if(set(['Language', 'Wiki']).issubset(set(columns))):
+                    wikis_codes = tables[i]
+                    break
+        
         wikis_codes = wikis_codes[['Wiki', 'Language']]
         wikis_codes = wikis_codes[wikis_codes["Language"].str.contains("(closed)") == False]
         wikis_codes = wikis_codes.set_index('Wiki').to_dict()['Language']
         return wikis_codes
     
-    except KeyError:
+    except: 
         wikis_codes = {'en': 'English', 'ceb': 'Cebuano', 'de': 'German', 'sv': 'Swedish', 'fr': 'French', 'nl': 'Dutch', 'ru': 'Russian',
                        'es': 'Spanish', 'it': 'Italian', 'arz': 'Egyptian Arabic', 'pl': 'Polish', 'ja': 'Japanese', 'zh': 'Chinese', 'vi': 
                        'Vietnamese', 'uk': 'Ukrainian', 'war': 'Waray', 'ar': 'Arabic', 'pt': 'Portuguese', 'fa': 'Persian', 'ca': 'Catalan', 
