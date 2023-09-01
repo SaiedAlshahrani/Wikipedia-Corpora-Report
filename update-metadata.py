@@ -11,7 +11,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 def fetch_wikis_codes():
     try:
-        url = r'https://en.wikipedia.org/wiki/List_of_Wikipedias'
+        url = r'https://en.wikipedia.org/wiki/Statistics_of_Wikipedias'
         tables = pd.read_html(url)
         
         for i in range(len(tables)):
