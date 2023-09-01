@@ -21,7 +21,6 @@ st.set_page_config(page_title="Wikipedia Corpora Report", page_icon="https://web
 st.markdown("""
         <h1 style='text-align: center';>Wikipedia Corpora Meta Report</h1>
         <h5 style='text-align: center';>A Metadata Report of How Wikipedia Articles Are Generated and Edited</h5>
-        <br>
 """, unsafe_allow_html=True)
 
 
