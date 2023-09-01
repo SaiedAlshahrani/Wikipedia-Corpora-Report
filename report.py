@@ -3,10 +3,12 @@ import warnings
 import datasets
 import subprocess
 import pandas as pd
+import urllib.request
 from time import sleep
 import streamlit as st
 from datetime import date
 import plotly.express as px
+from urllib.error import HTTPError
 
 
 warnings.simplefilter("ignore", UserWarning)
@@ -45,7 +47,7 @@ def fetch_wikis_codes():
         wikis_codes = wikis_codes.set_index('Wiki').to_dict()['Language']
         return wikis_codes
     
-    except:
+    except: 
         wikis_codes = {'en': 'English', 'ceb': 'Cebuano', 'de': 'German', 'sv': 'Swedish', 'fr': 'French', 'nl': 'Dutch', 'ru': 'Russian',
                        'es': 'Spanish', 'it': 'Italian', 'arz': 'Egyptian Arabic', 'pl': 'Polish', 'ja': 'Japanese', 'zh': 'Chinese', 'vi': 
                        'Vietnamese', 'uk': 'Ukrainian', 'war': 'Waray', 'ar': 'Arabic', 'pt': 'Portuguese', 'fa': 'Persian', 'ca': 'Catalan', 
