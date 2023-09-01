@@ -30,7 +30,7 @@ def fetch_wikis_codes():
         
         for url in urls:
             try: tables = pd.read_html(url)
-            except: continue
+            except urllib.error.HTTPError: continue
                 
             for i in range(len(tables)):
                 dataframe = tables[i]
