@@ -111,7 +111,6 @@ display_data_table = st.checkbox(f'Display metadata in a table.', value=False)
 
 @st.cache_data
 def fetch_metadata_dataset():
-        # token = "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"
         HF_TOKEN = st.secrets["HF_TOKEN"]
         dataset = datasets.load_dataset("SaiedAlshahrani/Wikipedia-Corpora-Report", split="train", use_auth_token=HF_TOKEN)
         dataset = dataset.to_pandas()
