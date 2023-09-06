@@ -152,9 +152,7 @@ with col1:
     display_data_table = st.checkbox(f'Display metadata in a table.', value=False)
 
 with col2:
-    # wiki_metadata = wiki_metadata.reset_index(drop=True, inplace=True).to_csv()
-    wiki_metadata = wiki_metadata.to_csv(index=False)
-    download_button = st.download_button(label="Download Metadata", data=wiki_metadata,
+    download_button = st.download_button(label="Download Metadata", data=wiki_metadata.to_csv().encode('utf-8'),
                                         file_name=f'{selected_language.split("(")[0].strip(" ")}-Metadata-{retrieval_date}.csv', mime='text/csv',)
 
 fig = px.sunburst(data_frame=wiki_metadata,
