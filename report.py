@@ -144,8 +144,8 @@ edits_content_pages = edits_content_bots+edits_content_humans
 edits_non_content_pages = edits_non_content_bots+edits_non_content_humans
 total_edits = edits_content_pages + edits_non_content_pages
 
-wiki_metadata = pd.DataFrame(metadata)
-st.write(type(wiki_metadata))
+wiki_metadata = pd.DataFrame(metadata).reset_index(drop=True)
+st.table(wiki_metadata)
 col1 , cc, col2 = st.columns([2, 1.3, 1], gap="small")
 
 with col1:
