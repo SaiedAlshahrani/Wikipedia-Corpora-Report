@@ -146,7 +146,7 @@ total_edits = edits_content_pages + edits_non_content_pages
 
 wiki_metadata = pd.DataFrame(metadata)
 
-col1 , cc, col2 = st.columns([2, 1, 1], gap="small")
+col1 , cc, col2 = st.columns([2, 1.1, 1], gap="small")
 
 with col1:
     display_data_table = st.checkbox(f'Display metadata in a table.', value=False)
