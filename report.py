@@ -26,69 +26,69 @@ st.markdown("""
 
 def fetch_wikis_codes():
     try:
-        urls = [r'https://en.wikipedia.org/wiki/Statistics_of_Wikipedias', 
+        urls = [r'https://en.wikipedia.org/wiki/Statistics_of_Wikipedias',
                 r'https://meta.wikimedia.org/wiki/List_of_Wikipedias']
-        
+
         for url in urls:
             try: tables = pd.read_html(url)
             except urllib.error.HTTPError: continue
-                
+
             for i in range(len(tables)):
                 dataframe = tables[i]
                 columns = list(dataframe.columns.values)
-        
+
                 if(set(['Language', 'Wiki']).issubset(set(columns))):
                     wikis_codes = tables[i]
                     break
-        
+
         wikis_codes = wikis_codes[['Wiki', 'Language']]
         wikis_codes = wikis_codes[wikis_codes["Language"].str.contains("(closed)") == False]
         wikis_codes = wikis_codes.set_index('Wiki').to_dict()['Language']
         return wikis_codes
-    
-    except: 
+
+    except:
         wikis_codes = {'en': 'English', 'ceb': 'Cebuano', 'de': 'German', 'sv': 'Swedish', 'fr': 'French', 'nl': 'Dutch', 'ru': 'Russian',
-                       'es': 'Spanish', 'it': 'Italian', 'arz': 'Egyptian Arabic', 'pl': 'Polish', 'ja': 'Japanese', 'zh': 'Chinese', 'vi': 
-                       'Vietnamese', 'uk': 'Ukrainian', 'war': 'Waray', 'ar': 'Arabic', 'pt': 'Portuguese', 'fa': 'Persian', 'ca': 'Catalan', 
-                       'sr': 'Serbian', 'id': 'Indonesian', 'ko': 'Korean', 'no': 'Norwegian (Bokmål)', 'ce': 'Chechen', 'fi': 'Finnish', 'cs': 
-                       'Czech', 'tr': 'Turkish', 'hu': 'Hungarian', 'tt': 'Tatar', 'sh': 'Serbo-Croatian', 'ro': 'Romanian', 'zh-min-nan': 
-                       'Southern Min', 'eu': 'Basque', 'ms': 'Malay', 'eo': 'Esperanto', 'he': 'Hebrew', 'hy': 'Armenian', 'da': 'Danish', 'bg': 
-                       'Bulgarian', 'cy': 'Welsh', 'sk': 'Slovak', 'azb': 'South Azerbaijani', 'uz': 'Uzbek', 'et': 'Estonian', 'simple': 
-                       'Simple English', 'be': 'Belarusian', 'kk': 'Kazakh', 'min': 'Minangkabau', 'el': 'Greek', 'hr': 'Croatian', 'lt': 'Lithuanian', 
-                       'gl': 'Galician', 'az': 'Azerbaijani', 'ur': 'Urdu', 'sl': 'Slovene', 'lld': 'Ladin', 'ka': 'Georgian', 'nn': 'Norwegian (Nynorsk)', 
-                       'hi': 'Hindi', 'th': 'Thai', 'ta': 'Tamil', 'bn': 'Bengali', 'la': 'Latin', 'mk': 'Macedonian', 'zh-yue': 'Cantonese', 'ast': 
-                       'Asturian', 'lv': 'Latvian', 'af': 'Afrikaans', 'tg': 'Tajik', 'my': 'Burmese', 'mg': 'Malagasy', 'mr': 'Marathi', 'sq': 'Albanian', 
-                       'bs': 'Bosnian', 'oc': 'Occitan', 'te': 'Telugu', 'ml': 'Malayalam', 'nds': 'Low German', 'be-tarask': 'Belarusian (Taraškievica)', 
-                       'br': 'Breton', 'ky': 'Kyrgyz', 'sw': 'Swahili', 'jv': 'Javanese', 'lmo': 'Lombard', 'new': 'Newar', 'pnb': 'Western Punjabi', 'vec': 
-                       'Venetian', 'ht': 'Haitian Creole', 'pms': 'Piedmontese', 'ba': 'Bashkir', 'lb': 'Luxembourgish', 'su': 'Sundanese', 'ku': 'Kurdish (Kurmanji)', 
-                       'ga': 'Irish', 'szl': 'Silesian', 'is': 'Icelandic', 'fy': 'West Frisian', 'cv': 'Chuvash', 'ckb': 'Kurdish (Sorani)', 'pa': 'Punjabi', 'tl': 
-                       'Tagalog', 'an': 'Aragonese', 'wuu': 'Wu Chinese', 'diq': 'Zaza', 'io': 'Ido', 'sco': 'Scots', 'vo': 'Volapük', 'yo': 'Yoruba', 'ne': 'Nepali', 
-                       'ia': 'Interlingua', 'kn': 'Kannada', 'gu': 'Gujarati', 'als': 'Alemannic German', 'ha': 'Hausa', 'avk': 'Kotava', 'bar': 'Bavarian', 'crh': 
-                       'Crimean Tatar', 'scn': 'Sicilian', 'bpy': 'Bishnupriya Manipuri', 'qu': 'Quechua (Southern Quechua)', 'nv': 'Navajo', 'mn': 'Mongolian', 'xmf': 
-                       'Mingrelian', 'ban': 'Balinese', 'si': 'Sinhala', 'tum': 'Tumbuka', 'ps': 'Pashto', 'frr': 'North Frisian', 'os': 'Ossetian', 'mzn': 'Mazanderani', 
-                       'bat-smg': 'Samogitian', 'or': 'Odia', 'ig': 'Igbo', 'sah': 'Yakut', 'cdo': 'Eastern Min', 'gd': 'Scottish Gaelic', 'bug': 'Buginese', 'yi': 'Yiddish', 
-                       'sd': 'Sindhi', 'ilo': 'Ilocano', 'am': 'Amharic', 'nap': 'Neapolitan', 'li': 'Limburgish', 'bcl': 'Central Bikol', 'fo': 'Faroese', 'gor': 'Gorontalo', 
-                       'hsb': 'Upper Sorbian', 'map-bms': 'Banyumasan', 'mai': 'Maithili', 'shn': 'Shan', 'eml': 'Emilian-Romagnol', 'ace': 'Acehnese', 'zh-classical': 
-                       'Classical Chinese', 'sa': 'Sanskrit', 'as': 'Assamese', 'wa': 'Walloon', 'ie': 'Interlingue', 'hyw': 'Western Armenian', 'lij': 'Ligurian', 'mhr': 
-                       'Meadow Mari', 'zu': 'Zulu', 'sn': 'Shona', 'hif': 'Fiji Hindi', 'mrj': 'Hill Mari', 'bjn': 'Banjarese', 'mni': 'Meitei', 'km': 'Khmer', 'hak': 
-                       'Hakka Chinese', 'roa-tara': 'Tarantino', 'pam': 'Kapampangan', 'sat': 'Santali', 'rue': 'Rusyn', 'nso': 'Northern Sotho', 'bh': 'Bihari (Bhojpuri)', 
-                       'so': 'Somali', 'mi': 'Māori', 'se': 'Northern Sámi', 'myv': 'Erzya', 'vls': 'West Flemish', 'nds-nl': 'Dutch Low Saxon', 'dag': 'Dagbani', 'sc': 
-                       'Sardinian', 'ary': 'Moroccan Arabic', 'co': 'Corsican', 'kw': 'Cornish', 'bo': 'Lhasa Tibetan', 'vep': 'Veps', 'glk': 'Gilaki', 'tk': 'Turkmen', 'kab': 
-                       'Kabyle', 'gan': 'Gan Chinese', 'rw': 'Kinyarwanda', 'fiu-vro': 'Võro', 'ab': 'Abkhaz', 'gv': 'Manx', 'ug': 'Uyghur', 'nah': 'Nahuatl', 'zea': 'Zeelandic', 
-                       'skr': 'Saraiki', 'frp': 'Franco-Provençal', 'udm': 'Udmurt', 'pcd': 'Picard', 'mt': 'Maltese', 'kv': 'Komi', 'csb': 'Kashubian', 'gn': 'Guarani', 'smn': 
-                       'Inari Sámi', 'ay': 'Aymara', 'nrm': 'Norman', 'ks': 'Kashmiri', 'lez': 'Lezgian', 'lfn': 'Lingua Franca Nova', 'olo': 'Livvi-Karelian', 'mwl': 'Mirandese', 
-                       'stq': 'Saterland Frisian', 'lo': 'Lao', 'ang': 'Old English', 'mdf': 'Moksha', 'fur': 'Friulian', 'rm': 'Romansh', 'lad': 'Judaeo-Spanish', 'kaa': 'Karakalpak', 
-                       'gom': 'Konkani (Goan Konkani)', 'ext': 'Extremaduran', 'koi': 'Permyak', 'tyv': 'Tuvan', 'pap': 'Papiamento', 'av': 'Avar', 'dsb': 'Lower Sorbian', 'ln': 
-                       'Lingala', 'dty': 'Doteli', 'tw': 'Twi', 'cbk-zam': 'Chavacano (Zamboanga)', 'dv': 'Maldivian', 'ksh': 'Ripuarian', 'za': 'Zhuang (Standard Zhuang)', 'gag': 
-                       'Gagauz', 'bxr': 'Buryat (Russia Buriat)', 'pfl': 'Palatine German', 'lg': 'Luganda', 'szy': 'Sakizaya', 'pag': 'Pangasinan', 'blk': "Pa'O", 'pi': 'Pali', 
-                       'tay': 'Atayal', 'haw': 'Hawaiian', 'awa': 'Awadhi', 'inh': 'Ingush', 'krc': 'Karachay-Balkar', 'xal': 'Kalmyk Oirat', 'pdc': 'Pennsylvania Dutch', 'to': 
-                       'Tongan', 'atj': 'Atikamekw', 'tcy': 'Tulu', 'arc': 'Aramaic (Syriac)', 'mnw': 'Mon', 'jam': 'Jamaican Patois', 'shi': 'Shilha', 'kbp': 'Kabiye', 'wo': 
-                       'Wolof', 'anp': 'Angika', 'kbd': 'Kabardian', 'nia': 'Nias', 'nov': 'Novial', 'om': 'Oromo', 'ki': 'Kikuyu', 'nqo': "N'Ko", 'bi': 'Bislama', 'xh': 'Xhosa', 
-                       'tpi': 'Tok Pisin', 'tet': 'Tetum', 'ff': 'Fula', 'roa-rup': 'Aromanian', 'jbo': 'Lojban', 'fj': 'Fijian', 'kg': 'Kongo (Kituba)', 'lbe': 'Lak', 'ty': 'Tahitian', 
-                       'guw': 'Gun', 'cu': 'Old Church Slavonic', 'trv': 'Seediq', 'ami': 'Amis', 'srn': 'Sranan Tongo', 'sm': 'Samoan', 'mad': 'Madurese', 'alt': 'Southern Altai', 
-                       'ltg': 'Latgalian', 'gcr': 'French Guianese Creole', 'chr': 'Cherokee', 'tn': 'Tswana', 'ny': 'Chewa', 'st': 'Sotho', 'pih': 'Norfuk', 'rmy': 'Romani (Vlax Romani)', 
-                       'got': 'Gothic', 'ee': 'Ewe', 'pcm': 'Nigerian Pidgin', 'bm': 'Bambara', 'ss': 'Swazi', 'ts': 'Tsonga', 've': 'Venda', 'kcg': 'Tyap', 'chy': 'Cheyenne', 'rn': 
-                       'Kirundi', 'ch': 'Chamorro', 'gur': 'Frafra', 'ik': 'Iñupiaq', 'ady': 'Adyghe', 'pnt': 'Pontic Greek', 'guc': 'Wayuu', 'iu': 'Inuktitut', 'pwn': 'Paiwan', 'sg': 
+                       'es': 'Spanish', 'it': 'Italian', 'arz': 'Egyptian Arabic', 'pl': 'Polish', 'ja': 'Japanese', 'zh': 'Chinese', 'vi':
+                       'Vietnamese', 'uk': 'Ukrainian', 'war': 'Waray', 'ar': 'Arabic', 'pt': 'Portuguese', 'fa': 'Persian', 'ca': 'Catalan',
+                       'sr': 'Serbian', 'id': 'Indonesian', 'ko': 'Korean', 'no': 'Norwegian (Bokmål)', 'ce': 'Chechen', 'fi': 'Finnish', 'cs':
+                       'Czech', 'tr': 'Turkish', 'hu': 'Hungarian', 'tt': 'Tatar', 'sh': 'Serbo-Croatian', 'ro': 'Romanian', 'zh-min-nan':
+                       'Southern Min', 'eu': 'Basque', 'ms': 'Malay', 'eo': 'Esperanto', 'he': 'Hebrew', 'hy': 'Armenian', 'da': 'Danish', 'bg':
+                       'Bulgarian', 'cy': 'Welsh', 'sk': 'Slovak', 'azb': 'South Azerbaijani', 'uz': 'Uzbek', 'et': 'Estonian', 'simple':
+                       'Simple English', 'be': 'Belarusian', 'kk': 'Kazakh', 'min': 'Minangkabau', 'el': 'Greek', 'hr': 'Croatian', 'lt': 'Lithuanian',
+                       'gl': 'Galician', 'az': 'Azerbaijani', 'ur': 'Urdu', 'sl': 'Slovene', 'lld': 'Ladin', 'ka': 'Georgian', 'nn': 'Norwegian (Nynorsk)',
+                       'hi': 'Hindi', 'th': 'Thai', 'ta': 'Tamil', 'bn': 'Bengali', 'la': 'Latin', 'mk': 'Macedonian', 'zh-yue': 'Cantonese', 'ast':
+                       'Asturian', 'lv': 'Latvian', 'af': 'Afrikaans', 'tg': 'Tajik', 'my': 'Burmese', 'mg': 'Malagasy', 'mr': 'Marathi', 'sq': 'Albanian',
+                       'bs': 'Bosnian', 'oc': 'Occitan', 'te': 'Telugu', 'ml': 'Malayalam', 'nds': 'Low German', 'be-tarask': 'Belarusian (Taraškievica)',
+                       'br': 'Breton', 'ky': 'Kyrgyz', 'sw': 'Swahili', 'jv': 'Javanese', 'lmo': 'Lombard', 'new': 'Newar', 'pnb': 'Western Punjabi', 'vec':
+                       'Venetian', 'ht': 'Haitian Creole', 'pms': 'Piedmontese', 'ba': 'Bashkir', 'lb': 'Luxembourgish', 'su': 'Sundanese', 'ku': 'Kurdish (Kurmanji)',
+                       'ga': 'Irish', 'szl': 'Silesian', 'is': 'Icelandic', 'fy': 'West Frisian', 'cv': 'Chuvash', 'ckb': 'Kurdish (Sorani)', 'pa': 'Punjabi', 'tl':
+                       'Tagalog', 'an': 'Aragonese', 'wuu': 'Wu Chinese', 'diq': 'Zaza', 'io': 'Ido', 'sco': 'Scots', 'vo': 'Volapük', 'yo': 'Yoruba', 'ne': 'Nepali',
+                       'ia': 'Interlingua', 'kn': 'Kannada', 'gu': 'Gujarati', 'als': 'Alemannic German', 'ha': 'Hausa', 'avk': 'Kotava', 'bar': 'Bavarian', 'crh':
+                       'Crimean Tatar', 'scn': 'Sicilian', 'bpy': 'Bishnupriya Manipuri', 'qu': 'Quechua (Southern Quechua)', 'nv': 'Navajo', 'mn': 'Mongolian', 'xmf':
+                       'Mingrelian', 'ban': 'Balinese', 'si': 'Sinhala', 'tum': 'Tumbuka', 'ps': 'Pashto', 'frr': 'North Frisian', 'os': 'Ossetian', 'mzn': 'Mazanderani',
+                       'bat-smg': 'Samogitian', 'or': 'Odia', 'ig': 'Igbo', 'sah': 'Yakut', 'cdo': 'Eastern Min', 'gd': 'Scottish Gaelic', 'bug': 'Buginese', 'yi': 'Yiddish',
+                       'sd': 'Sindhi', 'ilo': 'Ilocano', 'am': 'Amharic', 'nap': 'Neapolitan', 'li': 'Limburgish', 'bcl': 'Central Bikol', 'fo': 'Faroese', 'gor': 'Gorontalo',
+                       'hsb': 'Upper Sorbian', 'map-bms': 'Banyumasan', 'mai': 'Maithili', 'shn': 'Shan', 'eml': 'Emilian-Romagnol', 'ace': 'Acehnese', 'zh-classical':
+                       'Classical Chinese', 'sa': 'Sanskrit', 'as': 'Assamese', 'wa': 'Walloon', 'ie': 'Interlingue', 'hyw': 'Western Armenian', 'lij': 'Ligurian', 'mhr':
+                       'Meadow Mari', 'zu': 'Zulu', 'sn': 'Shona', 'hif': 'Fiji Hindi', 'mrj': 'Hill Mari', 'bjn': 'Banjarese', 'mni': 'Meitei', 'km': 'Khmer', 'hak':
+                       'Hakka Chinese', 'roa-tara': 'Tarantino', 'pam': 'Kapampangan', 'sat': 'Santali', 'rue': 'Rusyn', 'nso': 'Northern Sotho', 'bh': 'Bihari (Bhojpuri)',
+                       'so': 'Somali', 'mi': 'Māori', 'se': 'Northern Sámi', 'myv': 'Erzya', 'vls': 'West Flemish', 'nds-nl': 'Dutch Low Saxon', 'dag': 'Dagbani', 'sc':
+                       'Sardinian', 'ary': 'Moroccan Arabic', 'co': 'Corsican', 'kw': 'Cornish', 'bo': 'Lhasa Tibetan', 'vep': 'Veps', 'glk': 'Gilaki', 'tk': 'Turkmen', 'kab':
+                       'Kabyle', 'gan': 'Gan Chinese', 'rw': 'Kinyarwanda', 'fiu-vro': 'Võro', 'ab': 'Abkhaz', 'gv': 'Manx', 'ug': 'Uyghur', 'nah': 'Nahuatl', 'zea': 'Zeelandic',
+                       'skr': 'Saraiki', 'frp': 'Franco-Provençal', 'udm': 'Udmurt', 'pcd': 'Picard', 'mt': 'Maltese', 'kv': 'Komi', 'csb': 'Kashubian', 'gn': 'Guarani', 'smn':
+                       'Inari Sámi', 'ay': 'Aymara', 'nrm': 'Norman', 'ks': 'Kashmiri', 'lez': 'Lezgian', 'lfn': 'Lingua Franca Nova', 'olo': 'Livvi-Karelian', 'mwl': 'Mirandese',
+                       'stq': 'Saterland Frisian', 'lo': 'Lao', 'ang': 'Old English', 'mdf': 'Moksha', 'fur': 'Friulian', 'rm': 'Romansh', 'lad': 'Judaeo-Spanish', 'kaa': 'Karakalpak',
+                       'gom': 'Konkani (Goan Konkani)', 'ext': 'Extremaduran', 'koi': 'Permyak', 'tyv': 'Tuvan', 'pap': 'Papiamento', 'av': 'Avar', 'dsb': 'Lower Sorbian', 'ln':
+                       'Lingala', 'dty': 'Doteli', 'tw': 'Twi', 'cbk-zam': 'Chavacano (Zamboanga)', 'dv': 'Maldivian', 'ksh': 'Ripuarian', 'za': 'Zhuang (Standard Zhuang)', 'gag':
+                       'Gagauz', 'bxr': 'Buryat (Russia Buriat)', 'pfl': 'Palatine German', 'lg': 'Luganda', 'szy': 'Sakizaya', 'pag': 'Pangasinan', 'blk': "Pa'O", 'pi': 'Pali',
+                       'tay': 'Atayal', 'haw': 'Hawaiian', 'awa': 'Awadhi', 'inh': 'Ingush', 'krc': 'Karachay-Balkar', 'xal': 'Kalmyk Oirat', 'pdc': 'Pennsylvania Dutch', 'to':
+                       'Tongan', 'atj': 'Atikamekw', 'tcy': 'Tulu', 'arc': 'Aramaic (Syriac)', 'mnw': 'Mon', 'jam': 'Jamaican Patois', 'shi': 'Shilha', 'kbp': 'Kabiye', 'wo':
+                       'Wolof', 'anp': 'Angika', 'kbd': 'Kabardian', 'nia': 'Nias', 'nov': 'Novial', 'om': 'Oromo', 'ki': 'Kikuyu', 'nqo': "N'Ko", 'bi': 'Bislama', 'xh': 'Xhosa',
+                       'tpi': 'Tok Pisin', 'tet': 'Tetum', 'ff': 'Fula', 'roa-rup': 'Aromanian', 'jbo': 'Lojban', 'fj': 'Fijian', 'kg': 'Kongo (Kituba)', 'lbe': 'Lak', 'ty': 'Tahitian',
+                       'guw': 'Gun', 'cu': 'Old Church Slavonic', 'trv': 'Seediq', 'ami': 'Amis', 'srn': 'Sranan Tongo', 'sm': 'Samoan', 'mad': 'Madurese', 'alt': 'Southern Altai',
+                       'ltg': 'Latgalian', 'gcr': 'French Guianese Creole', 'chr': 'Cherokee', 'tn': 'Tswana', 'ny': 'Chewa', 'st': 'Sotho', 'pih': 'Norfuk', 'rmy': 'Romani (Vlax Romani)',
+                       'got': 'Gothic', 'ee': 'Ewe', 'pcm': 'Nigerian Pidgin', 'bm': 'Bambara', 'ss': 'Swazi', 'ts': 'Tsonga', 've': 'Venda', 'kcg': 'Tyap', 'chy': 'Cheyenne', 'rn':
+                       'Kirundi', 'ch': 'Chamorro', 'gur': 'Frafra', 'ik': 'Iñupiaq', 'ady': 'Adyghe', 'pnt': 'Pontic Greek', 'guc': 'Wayuu', 'iu': 'Inuktitut', 'pwn': 'Paiwan', 'sg':
                        'Sango', 'din': 'Dinka', 'ti': 'Tigrinya', 'kl': 'Greenlandic', 'dz': 'Dzongkha', 'cr': 'Cree', 'ak': 'Akan'}
         return wikis_codes
 
@@ -105,7 +105,6 @@ for key, value in wiki_codes.items():
     labels.append(f"{value} ({key})")
 
 selected_language = st.selectbox("Select or Search for a Wikipedia language:", labels, placeholder="Select or Search for a Wikipedia language")
-display_data_table = st.checkbox(f'Display metadata in a table.', value=False)
 
 
 @st.cache_data
@@ -147,9 +146,18 @@ total_edits = edits_content_pages + edits_non_content_pages
 
 wiki_metadata = pd.DataFrame(metadata)
 
-fig = px.sunburst(data_frame=wiki_metadata, 
-                  path=['Wiki','Metric', 'Sub-Metric', 'Editors'], 
-                  values='Values', 
+col1 , cc, col2 = st.columns([2, 1.5, 1], gap="small")
+
+with col1:
+    display_data_table = st.checkbox(f'Display metadata in a table.', value=False)
+
+with col2:
+    download_button = st.download_button(label="Download Metdata", data=wiki_metadata.to_csv().encode('utf-8'),
+                                        file_name=f'{selected_language.split("(")[0].strip(" ")}-Metadata-{retrieval_date}.csv', mime='text/csv',)
+
+fig = px.sunburst(data_frame=wiki_metadata,
+                  path=['Wiki','Metric', 'Sub-Metric', 'Editors'],
+                  values='Values',
                   branchvalues="total",
                   color_discrete_sequence=['darkgray', 'black'],
                   template='xgridoff')
@@ -243,7 +251,7 @@ if display_data_table:
 fonts_style = """
             <style>
                     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200&display=swap');
-            </style> 
+            </style>
             """
 st.markdown(fonts_style, unsafe_allow_html=True)
 
@@ -275,9 +283,9 @@ footer="""
         </style>
 
         <div class="footer"> <p class="p1">Copyright © 2023 by ***** ********** <br> Latest Meta Update: 1st August, 2023</p> </div>
-        
+
 """
-st.markdown(footer, unsafe_allow_html=True)  
+st.markdown(footer, unsafe_allow_html=True)
 
 st.markdown("""
         <style>
