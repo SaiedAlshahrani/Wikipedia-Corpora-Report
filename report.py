@@ -282,7 +282,7 @@ footer="""
 
         </style>
 
-        <div class="footer"> <p class="p1">Copyright © 2023 by ***** ********** <br> Latest Meta Update: 1st August, 2023</p> </div>
+        <div class="footer"> <p class="p1">Copyright © 2023 by ***** ********** <br> Latest Meta Update: 1st September, 2023</p> </div>
 
 """
 st.markdown(footer, unsafe_allow_html=True)
