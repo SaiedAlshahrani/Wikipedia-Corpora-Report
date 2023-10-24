@@ -1,7 +1,8 @@
 lxml==4.9.1
 pandas==1.4.3
 plotly==5.15.0
-datasets==2.14.4
+#datasets==2.14.4
+datasets
 streamlit==1.25.0
 selenium==3.141.0 
 geckodriver-autoinstaller==0.1.0
