@@ -5,7 +5,7 @@ This dashboard interactively displays the metadata of each Wikipedia edition usi
 
 This dashboard was presented as a *transparency* tool in our **accepted** paper, [**Performance Implications of Using Unrepresentative Corpora in Arabic Natural Language Processing**](https://webspace.clarkson.edu/~alshahsf/unrepresentative_corpora.pdf), at [*The First Arabic Natural Language Processing Conference (ArabicNLP 2023)*](https://sites.google.com/view/wanlp2023), co-located with [EMNLP 2023](https://2023.emnlp.org/) in Singapore (hybrid conference), December 7, 2023.
 
-#### Local Run of Dashboard
+### Local Run of Dashboard
 The dashboard is publicly hosted online on Streamlit Community Cloud, yet if you desire to run the dashboard locally on your machine, follow these steps.
 
 1- Clone the dashboard's GitHub repository to your machine. Use this command in your terminal:
@@ -28,7 +28,7 @@ streamlit run report.py
 ```
 
 
-#### BibTeX Citation:
+### BibTeX Citation:
 ```bash
 @inproceedings{alshahrani-etal-2023-implications,
     title = "{{Performance Implications of Using Unrepresentative Corpora in Arabic Natural Language Processing}}",
