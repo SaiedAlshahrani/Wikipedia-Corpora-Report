@@ -29,7 +29,9 @@ pip install -r requirements.txt
 streamlit run report.py
 ```
 <br>
+
 ### BibTeX Citation:
+
 ```bash
 @inproceedings{alshahrani-etal-2023-implications,
     title = "{{Performance Implications of Using Unrepresentative Corpora in Arabic Natural Language Processing}}",
