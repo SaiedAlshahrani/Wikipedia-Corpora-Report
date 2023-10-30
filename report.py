@@ -146,10 +146,13 @@ total_edits = edits_content_pages + edits_non_content_pages
 
 wiki_metadata = pd.DataFrame(metadata).reset_index(drop=True)
 
-col1 , cc, col2 = st.columns([2, 1.3, 1], gap="small")
+col1 , cc, col2 = st.columns([1.5, 1.75, 1], gap="small")
 
 with col1:
     display_data_table = st.checkbox(f'Display metadata in a table.', value=False)
+
+with cc:
+    st.markdown(f"<p style='color:lightgray;font-family:'IBM Plex Sans',sans-serif;font-size:18px;'> &#9432; Latest Metadata Update: {retrieval_date}</p>", unsafe_allow_html=True)
 
 with col2:
     download_button = st.download_button(label="Download Metadata", data=wiki_metadata.to_csv().encode('utf-8'),
@@ -282,7 +285,7 @@ footer="""
 
         </style>
 
-        <div class="footer"> <p class="p1">Copyright © 2023 by Saied Alshahrani<br>Latest Meta Update: 1st September, 2023</p> </div>
+        <div class="footer"> <p class="p1">Copyright © 2023 by Saied Alshahrani</p> </div>
 
 """
 st.markdown(footer, unsafe_allow_html=True)
