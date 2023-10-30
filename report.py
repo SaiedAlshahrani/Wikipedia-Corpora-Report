@@ -287,7 +287,7 @@ footer="""
 
         </style>
 
-        <div class="footer"> <p class="p1">Copyright © 2023 by Saied Alshahrani<br>Hosted with Streamlit Community Cloud</p> </div>
+        <div class="footer"> <p class="p1">Copyright © 2023 by Saied Alshahrani</p> </div>
 
 """
 st.markdown(footer, unsafe_allow_html=True)
