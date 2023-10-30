@@ -104,6 +104,8 @@ wiki_codes = fetch_wikis_codes()
 for key, value in wiki_codes.items():
     labels.append(f"{value} ({key})")
 
+st.markdown("##")
+
 selected_language = st.selectbox("Select or Search for a Wikipedia language:", labels, placeholder="Select or Search for a Wikipedia language")
 
 
