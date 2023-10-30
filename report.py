@@ -112,7 +112,6 @@ def fetch_metadata_dataset():
         # HF_TOKEN = st.secrets["HF_TOKEN"]
         dataset = datasets.load_dataset("SaiedAlshahrani/Wikipedia-Corpora-Report", split="train")#, use_auth_token=HF_TOKEN)
         dataset = dataset.to_pandas()
-        st.dataframe(dataset)
         return dataset
 
 dataset = fetch_metadata_dataset()
@@ -125,7 +124,7 @@ now_date = date.today()
 data_date = date(int(retrieval_date.split('-')[0]), int(retrieval_date.split('-')[1]), int(retrieval_date.split('-')[2]))
 delta = now_date - data_date
 
-if delta.days > 45: run_daemon(["bash", "update-daemon.sh"])
+# if delta.days > 45: run_daemon(["bash", "update-daemon.sh"])
 
 pages_content_bots = metadata['Values'].iloc[0]
 pages_content_humans = metadata['Values'].iloc[1]
