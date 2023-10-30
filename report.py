@@ -109,8 +109,8 @@ selected_language = st.selectbox("Select or Search for a Wikipedia language:", l
 
 @st.cache_data
 def fetch_metadata_dataset():
-        HF_TOKEN = st.secrets["HF_TOKEN"]
-        dataset = datasets.load_dataset("SaiedAlshahrani/Wikipedia-Corpora-Report", split="train", use_auth_token=HF_TOKEN)
+        # HF_TOKEN = st.secrets["HF_TOKEN"]
+        dataset = datasets.load_dataset("SaiedAlshahrani/Wikipedia-Corpora-Report", split="train")#, use_auth_token=HF_TOKEN)
         dataset = dataset.to_pandas()
         return dataset
 
